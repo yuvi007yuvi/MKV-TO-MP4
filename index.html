@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MKV Converter | Premium Video Transformation</title>
+    <meta name="description" content="Professional-grade MKV to MP4 converter that runs entirely in your browser. Fast, secure, and high-quality.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="bg-gradient"></div>
+    <div class="glow-sphere sphere-1"></div>
+    <div class="glow-sphere sphere-2"></div>
+
+    <header>
+        <nav class="container">
+            <div class="logo">
+                <i class="fas fa-bolt"></i>
+                <span>CONVERT<span>FLOW</span></span>
+            </div>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#about">About</a>
+                <button class="btn-primary-sm">Get Pro</button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero container">
+            <div class="hero-content">
+                <span class="badge">Next Generation Video Processing</span>
+                <h1>Transform <span class="text-gradient">MKV to MP4</span> Instantly</h1>
+                <p>Lightning-fast, high-quality, and completely private. Your files never leave your device.</p>
+            </div>
+
+            <div class="converter-wrapper">
+                <div class="glass-card converter-card" id="drop-zone">
+                    <div class="upload-area" id="upload-area">
+                        <div class="icon-box">
+                            <i class="fas fa-cloud-arrow-up"></i>
+                        </div>
+                        <h3>Choose an MKV File</h3>
+                        <p>or drag and drop here</p>
+                        <input type="file" id="file-input" accept=".mkv" hidden>
+                        <button class="btn-glow" onclick="document.getElementById('file-input').click()">Select File</button>
+                    </div>
+
+                    <div class="file-info" id="file-info" style="display: none;">
+                        <div class="file-details">
+                            <div class="file-icon"><i class="fas fa-file-video"></i></div>
+                            <div class="file-meta">
+                                <span id="filename">video.mkv</span>
+                                <span id="filesize">0 MB</span>
+                            </div>
+                            <button class="remove-btn" id="remove-file"><i class="fas fa-times"></i></button>
+                        </div>
+                        
+                        <div class="settings-grid">
+                            <div class="setting-group">
+                                <label for="resolution">Quality</label>
+                                <select id="resolution">
+                                    <option value="original">Keep Original</option>
+                                    <option value="1080p">1080p Full HD</option>
+                                    <option value="720p">720p HD</option>
+                                    <option value="480p">480p SD</option>
+                                </select>
+                            </div>
+                            <div class="setting-group">
+                                <label for="encoding">Presets</label>
+                                <select id="encoding">
+                                    <option value="medium">Balanced (Recommended)</option>
+                                    <option value="ultrafast">Fast Conversion</option>
+                                    <option value="slow">High Quality</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="conversion-status" id="conversion-status" style="display: none;">
+                            <div class="progress-bar-container">
+                                <div class="progress-bar" id="progress-bar"></div>
+                            </div>
+                            <div class="status-text">
+                                <span id="status-message">Initializing FFmpeg...</span>
+                                <span id="progress-percent">0%</span>
+                            </div>
+                        </div>
+
+                        <div class="action-buttons">
+                            <button id="convert-btn" class="btn-primary">
+                                <i class="fas fa-exchange-alt"></i> Convert to MP4
+                            </button>
+                            <button id="download-btn" class="btn-success" style="display: none;">
+                                <i class="fas fa-download"></i> Download MP4
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="container features">
+            <div class="feature-card glass-card">
+                <i class="fas fa-shield-alt"></i>
+                <h4>Private & Secure</h4>
+                <p>Files are processed 100% locally in your browser. No server uploads.</p>
+            </div>
+            <div class="feature-card glass-card">
+                <i class="fas fa-tachometer-alt"></i>
+                <h4>Lightning Fast</h4>
+                <p>Powered by WebAssembly (FFmpeg) for near-native performance.</p>
+            </div>
+            <div class="feature-card glass-card">
+                <i class="fas fa-display"></i>
+                <h4>4K Supported</h4>
+                <p>Support for any resolution MKV conversion with high fidelity.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container footer-content">
+            <p>&copy; 2026 ConvertFlow. Premium Media Utilities.</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-github"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- FFmpeg WASM -->
+    <script type="module" src="script.js"></script>
+</body>
+</html>
