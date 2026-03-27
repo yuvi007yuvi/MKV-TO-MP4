@@ -83,9 +83,13 @@ async function startConversion() {
         statusMessage.textContent = 'Loading FFmpeg Core...';
         if (!ffmpeg.loaded) {
             const baseURL = 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/esm';
+            const ffURL = 'https://unpkg.com/@ffmpeg/ffmpeg@0.12.10/dist/esm';
+            
+            // Critical fix for cross-origin worker in GitHub Pages
             await ffmpeg.load({
                 coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript'),
                 wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, 'application/wasm'),
+                workerURL: await toBlobURL(`${ffURL}/worker.js`, 'text/javascript'),
             });
         }
 
