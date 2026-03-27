@@ -1,7 +1,7 @@
 import { FFmpeg } from 'https://unpkg.com/@ffmpeg/ffmpeg@0.12.10/dist/esm/index.js';
 import { fetchFile, toBlobURL } from 'https://unpkg.com/@ffmpeg/util@0.12.1/dist/esm/index.js';
 
-const ffmpeg = new FFmpeg();
+let ffmpeg = null;
 
 // DOM Elements
 const dropZone = document.getElementById('drop-zone');
@@ -80,12 +80,28 @@ async function startConversion() {
         conversionStatus.style.display = 'block';
         
         // 1. Load FFmpeg
-        statusMessage.textContent = 'Loading FFmpeg Core...';
+        statusMessage.textContent = 'Initializing engine...';
+        const baseURL = 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/esm';
+        const ffURL = 'https://unpkg.com/@ffmpeg/ffmpeg@0.12.10/dist/esm';
+        
+        if (!ffmpeg) {
+            // For GitHub Pages: toBlobURL is essential for same-origin worker worker.js
+            ffmpeg = new FFmpeg();
+        }
+
         if (!ffmpeg.loaded) {
-            const baseURL = 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/esm';
-            const ffURL = 'https://unpkg.com/@ffmpeg/ffmpeg@0.12.10/dist/esm';
-            
-            // Critical fix for cross-origin worker in GitHub Pages
+            // Register logger first
+            ffmpeg.on('log', ({ message }) => {
+                console.log(message);
+            });
+
+            ffmpeg.on('progress', ({ progress }) => {
+                const percentage = Math.round(progress * 100);
+                progressBar.style.width = percentage + '%';
+                progressPercent.textContent = percentage + '%';
+                statusMessage.textContent = `Converting: ${percentage}%`;
+            });
+
             await ffmpeg.load({
                 coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript'),
                 wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, 'application/wasm'),
@@ -100,17 +116,7 @@ async function startConversion() {
         
         await ffmpeg.writeFile(fileName, await fetchFile(selectedFile));
 
-        // 3. Set Progress Handler
-        ffmpeg.on('log', ({ message }) => {
-            console.log(message);
-        });
-
-        ffmpeg.on('progress', ({ progress }) => {
-            const percentage = Math.round(progress * 100);
-            progressBar.style.width = percentage + '%';
-            progressPercent.textContent = percentage + '%';
-            statusMessage.textContent = `Converting: ${percentage}%`;
-        });
+        await ffmpeg.writeFile(fileName, await fetchFile(selectedFile));
 
         // 4. Construct Command
         statusMessage.textContent = 'Starting conversion...';
